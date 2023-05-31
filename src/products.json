@@ -35,13 +35,4 @@
     "code": "A4",
     "stock": 40
   },
-  {
-    "id": 5,
-    "title": "Tape",
-    "description": "lorem ipsum",
-    "price": 500,
-    "thumbnail": "tape.svg",
-    "code": "A5",
-    "stock": 50
-  }
 ]
