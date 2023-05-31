@@ -9,7 +9,7 @@ const productManager = new ProductManager("products");
 // Extended para querys:
 app.use(express.urlencoded({ extended: true }));
 
-// Endpoint mostrar productos:
+// Endpoint - mostrar productos:
 app.get("/products", async (req, res) => {
 	try {
 		const { limit } = req.query;
@@ -19,12 +19,11 @@ app.get("/products", async (req, res) => {
       // Limitar array según valor de 'limit':
 			const limitedProducts = products.slice(0, limit);
 			return res.json(limitedProducts);
-		} else {
-			return res.json(products);
-		};
+		}
+		res.json(products);
 	} catch (err) {
 		return res.status(500).json({ error: err.message });
-	};
+	}
 });
 
 // Endpoint mostrar producto según ID:
