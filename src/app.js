@@ -1,14 +1,15 @@
 import express from "express";
+
 const app = express();
 const port = 3000;
 
 import ProductManager from "./productManager.js";
 const productManager = new ProductManager("products");
 
-// Extended para uso de querys:
+// Extended para querys:
 app.use(express.urlencoded({ extended: true }));
 
-// Endpoint para mostrar los productos:
+// Endpoint mostrar productos:
 app.get("/products", async (req, res) => {
 	try {
 		const { limit } = req.query;
@@ -26,7 +27,7 @@ app.get("/products", async (req, res) => {
 	};
 });
 
-// Endpoint para mostrar un producto según ID:
+// Endpoint mostrar producto según ID:
 app.get("/products/:pid", async (req, res) => {
 	try {
     // Tomar 'id', convertirlo en número entero y buscar el producto:
