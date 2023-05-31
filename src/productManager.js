@@ -10,30 +10,30 @@ export default class ProductManager {
 	};
 
 	getProducts() {
-		// Validar si existe el archivo:
+		// Validar la existencia del archivo:
 		if (!fs.existsSync(this.#path)) {
 			try {
-				// Si no existe, crearlo:
+				// De lo contrario, crearlo:
 				fs.writeFileSync(this.#path, JSON.stringify(this.#products));
 			} catch (err) {
-				return `Writing error while getting products: ${err}`;
+				return `There has been a writing error when getting products: ${err}`;
 			};
 		};
 		
-		// Leer archivo y convertirlo en objeto:
+		// Leer archivo + convertirlo en objeto:
 		try {
 			const data = fs.readFileSync(this.#path, "utf8");
 			const dataArray = JSON.parse(data);
 			return dataArray;
 		} catch (err) {
-			return `Reading error while getting products: ${err}`;
+			return `There has been a reading error when getting products: ${err}`;
 		};
 	};
 
 	lastId() {
 		const products = this.getProducts();
 
-		// Obtener y devolver último ID:
+		// Obtener + devolver último ID:
 		if (products.length > 0) {
 			const lastId = products.reduce((maxId, product) => {
 				return product.id > maxId ? product.id : maxId;
@@ -53,19 +53,19 @@ export default class ProductManager {
 			return `Please fill all the fields to add a product`;
 		};
 
-		// Validar si el código existe:
+		// Validar existencia del código:
 		if (products.some((product) => product.code === code)) {
 			return `The code ${code} already exists`;
 		};
 
-		// Si es correcto, escribir el archivo:
+		// Si lo es, escribir el archivo:
 		try {
 			const id = this.lastId() + 1;
 			const product = { id, title, description, price, thumbnail, code, stock };
 			products.push(product);
 			fs.writeFileSync(this.#path, JSON.stringify(products));
 		} catch (err) {
-			return `Writing error while adding the product: ${err}`;
+			return `There has been a writing error when adding the product: ${err}`;
 		};
 	};
 
@@ -73,9 +73,9 @@ export default class ProductManager {
 		const products = this.getProducts();
 		const product = products.find(product => product.id === id);
 
-		// Validar si el producto existe:
+		// Validar existencia del prducto:
 		if (!product) {
-			return `There's no product with ID ${id}`;
+			return `There isn't a product with the ID ${id}`;
 		}
 
 		return product;
@@ -85,27 +85,27 @@ export default class ProductManager {
 		const products = this.getProducts();
 		const product = products.find(product => product.id === id);
 
-		// Validar ID:
+		// Validar el ID:
 		if (!product) {
-			return `There's no product with ID ${id}`;
+			return `There isn't a product with the ID ${id}`;
 		};
 
-		// Validar campo:
+		// Validar el campo:
 		if (!(field in product)) {
-			return `There's no field "${field}" in product ${id}`;
+			return `There isn't a field "${field}" in the product ${id}`;
 		};
 
-		// Validar valor:
+		// Validar el valor:
 		if (!value) {
-			return `The value is incorrect`;
+			return `This value is incorrect`;
 		};
 
-		// Si es correcto, escribir el archivo:
+		// Si lo es, escribir el archivo:
 		try {
 			product[field] = value;
 			fs.writeFileSync(this.#path, JSON.stringify(products));
 		} catch (err) {
-			return `Writing error while updating the product: ${err}`;
+			return `There has been a writing error when updating the product: ${err}`;
 		};
 	};
 
@@ -113,17 +113,17 @@ export default class ProductManager {
 		const products = this.getProducts();
 		const productIndex = products.findIndex(product => product.id === id);
 
-		// Validar ID:
+		// Validar el ID:
 		if (productIndex === -1) {
-			return `There's no product with ID: ${id}`;
+			return `There isn't a product with the ID: ${id}`;
 		};
 
-		// Si es correcto, escribir el archivo:
+		// Si lo es, escribir el archivo:
 		try {
 			products.splice(productIndex, 1);
 			fs.writeFileSync(this.#path, JSON.stringify(products));
 		} catch (err) {
-			return `Writing error while deleting the product: ${err}`;
+			return `There has been a writing error when deleting the product: ${err}`;
 		};
 	};
 };
